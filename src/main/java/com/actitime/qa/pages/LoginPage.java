@@ -38,7 +38,11 @@ public class LoginPage extends TestBase {
 	
 	@FindBy(xpath = "//div[@class='atLogoImg']")
 	WebElement actiTimeLogo;
-	
+
+	@FindBy(xpath = "//span[@class='errormsg']")
+	WebElement errorMsg;
+
+
 	
 	//initialization
 	
@@ -64,5 +68,9 @@ public class LoginPage extends TestBase {
 		loginButton.click();
 		return new HomePage();
 		
+	}
+
+	public String getErrorMeg(){
+		return errorMsg.getText();
 	}
 }

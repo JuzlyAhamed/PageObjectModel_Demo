@@ -10,6 +10,7 @@ import com.actitime.qa.base.TestBase;
 import com.actitime.qa.pages.HomePage;
 import com.actitime.qa.pages.LoginPage;
 import com.actitime.qa.util.TestUtil;
+import com.actitime.qa.testdata.Constants;
 
 public class LogonPageTest extends TestBase{
 
@@ -26,7 +27,7 @@ public class LogonPageTest extends TestBase{
 	
 	
 	@BeforeMethod
-	public void seup() {
+	public void setup() {
 		initialization();
 		loginPage = new LoginPage();
 		
@@ -40,23 +41,31 @@ public class LogonPageTest extends TestBase{
 	Assert.assertTrue(flag);
 		
 	}
-	
-	
-	@DataProvider
-	
-	public Object[][] getactiTimeTestData() {
-		Object data[][]=testUtil.getTestData(sheetName);
-		
-		return data;
-		
-		
-		
+
+	@Test(priority = 2)
+	public void LoginTest() {
+		homePage = loginPage.loging(Constants.USERNAME, Constants.PASSWORD);
 	}
-	@Test(priority = 2,dataProvider="getactiTimeTestData")
-	public void LoginTest(String userName, String password) {
-		
-		
-		homePage = loginPage.loging(userName, password);
+
+	@Test(priority = 3)
+	public void InvalidUserLoginTest() throws InterruptedException {
+		homePage = loginPage.loging(Constants.INVALID_USERNAME, Constants.PASSWORD);
+		Thread.sleep(3000);
+		Assert.assertEquals(loginPage.getErrorMeg(),Constants.ERROR_MSG);
+	}
+
+	@Test(priority = 4)
+	public void InvalidPwdLoginTest() throws InterruptedException {
+		homePage = loginPage.loging(Constants.USERNAME, Constants.INVALID_PASSWORD);
+		Thread.sleep(3000);
+		Assert.assertEquals(loginPage.getErrorMeg(),Constants.ERROR_MSG);
+	}
+
+	@Test(priority = 5)
+	public void InvalidPwdAndUsernameLoginTest() throws InterruptedException {
+		homePage = loginPage.loging(Constants.INVALID_USERNAME, Constants.INVALID_PASSWORD);
+		Thread.sleep(3000);
+		Assert.assertEquals(loginPage.getErrorMeg(),Constants.ERROR_MSG);
 	}
 	
 	
